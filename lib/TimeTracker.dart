@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:timer_tracker/constants.dart';
-import 'Component/component.dart';
-import 'Component/costumButton.dart';
+import 'Component/ClickAbleImage.dart';
+
 
 class TimeTracker extends StatelessWidget {
   const TimeTracker({Key key}) : super(key: key);
@@ -10,9 +9,6 @@ class TimeTracker extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Color(0xFF30475e) ,
-      ),
       home: MainScreen(),
     );
   }
@@ -33,52 +29,50 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3.0,
-        shape: CustomShapeBorder(),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[
+                    Color(0xFFCF4241),
+                    Color(0xFFEE5352),
+                    Color(0xFFE14B4C),
+
+                  ])
+          ),
+        ),
         title: Center(child: Text("Time Tracker")),
       ),
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                kRed,
-                kDarkBlue,
-
-              ],
-            )
-        ),
+        color: Colors.white,
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Welcome to TimeTracker !",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily:'Pattaya',
-                  fontSize: 26.0,
-                  color: kWhite,
-                ),
-              ),
-              Image.asset("images/time.png", height: 100, width: 100,),
-              RoundedButton(text: 'Sign In !',),
-              RoundedButton(text: 'Sign Up !',),
-
+              ClickAbleImage(name:'time',),
+              SizedBox(height: 100,),
+              ClickAbleImage(name:'asset1',width: 300,press: ()=>print("sign in"),),
+              SizedBox(height: 10,),
+              ClickAbleImage(name:'asset2',width: 300,press: ()=>print("sign up"),),
+              SizedBox(height: 10,),
               Container(
                 child: GestureDetector(
                   child: Text(
-                    ' - Sign In as Anonymously -',
+                    "Sign In as Anonymously",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: kWhite,
+                      fontFamily:'Cairo',
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF30475E),
+
                     ),
-                  ),
+                  )
+              ),
                 ),
-              )
             ],
           ),
         ),
@@ -86,4 +80,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
+
 

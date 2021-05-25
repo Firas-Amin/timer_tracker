@@ -4,8 +4,9 @@ class ClickAbleImage extends StatelessWidget {
   final Function press;
   final String name;
   final double width;
+  final Widget child ;
   const ClickAbleImage({
-    Key key, this.press,@required this.name, this.width,
+    Key key, this.press,@required this.name, this.width, this.child,
   }) : super(key: key);
 
   @override

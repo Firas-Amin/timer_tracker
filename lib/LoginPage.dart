@@ -23,22 +23,22 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
+              SizedBox(height: 30,),
 
               SvgPicture.asset('images/timeScreen.svg',width: 200, height: 200,),
 
-              Text("Email:", style: kMainText.copyWith(fontSize: 16),),
-              RoundedTextField(icon:Icons.mail,name: "Enter A Valid Email",),
+
+              RoundedTextField(icon:Icons.mail,name: "Enter Your Email",),
 
 
-              Text("Password:", style: kMainText.copyWith(fontSize: 16),),
               RoundedPasswordField(icon:Icons.lock,name: "Must be at least 8 characters",),
               Text("Forget Password?", textAlign: TextAlign.end, style: kMainText.copyWith(fontSize: 16),),
+              SizedBox(height: 30,),
 
-
-              SizedBox(height: 10,),
               ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=> LoginPage())),),
-              _divider(),
+              divider(),
               Text("Sign In with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
+              SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -58,7 +58,7 @@ class LoginPage extends StatelessWidget {
 
 
 
-Widget _divider() {
+Widget divider() {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
     child: Row(

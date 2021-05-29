@@ -21,12 +21,13 @@ String name,
         decoration: InputDecoration(
           hintText: name,
           hintStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 14.0
+              color: Colors.black26,
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
           ),
           icon: Icon(
             icon,
-            color: Colors.white,
+            color: kRed,
           ),
           border: InputBorder.none,
           suffixIcon: icon2,

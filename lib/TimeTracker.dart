@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:timer_tracker/LandingPage.dart';
+import 'package:timer_tracker/RegisterPage.dart';
 import 'Component/ClickAbleImage.dart';
 import 'LoginPage.dart';
 import 'constants.dart';
@@ -14,40 +17,24 @@ class TimeTracker extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
       ),
-      home: MainScreen(),
+      home: LandingPage(),
     );
   }
 }
 
 
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key key}) : super(key: key);
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key key, this.isSignedIn}) : super(key: key);
+  final void Function(User) isSignedIn;
 
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
 
-class _MainScreenState extends State<MainScreen> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 3.0,
-      //   flexibleSpace: Container(
-      //     decoration: BoxDecoration(
-      //         gradient: LinearGradient(
-      //             begin: Alignment.centerLeft,
-      //             end: Alignment.centerRight,
-      //             colors: <Color>[
-      //               Color(0xFFCF4241),
-      //               Color(0xFFEE5352),
-      //               Color(0xFFE14B4C),
-      //             ])
-      //     ),
-      //   ),
-      //   title: Center(child: Text("Time Tracker")),
-      // ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -58,10 +45,11 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(height: 100,),
             ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=> LoginPage())),),
             SizedBox(height: 10,),
-            ClickAbleImage(name:'asset2',width: 300,press: ()=>print("sign up"),),
+            ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage())),),
             SizedBox(height: 10,),
             Container(
               child: GestureDetector(
+                onTap: _SignInAnonymous,
                 child: Text(
                   "Sign In as Anonymously",
                   textAlign: TextAlign.center,
@@ -73,6 +61,17 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+  Future<void> _SignInAnonymous() async {
+    try{
+      final UserCredential= await FirebaseAuth.instance.signInAnonymously();
+      isSignedIn(UserCredential.user);
+    }catch(e){
+      print(e.toString());
+
+    }
+
+
   }
 }
 

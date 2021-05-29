@@ -17,15 +17,7 @@ class TextFieldContainer extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
       decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: <Color>[
-                  Color(0xFFCF4241),
-                  Color(0xFFEE5352),
-                  Color(0xFFE14B4C),
-                ]),
-
+            color: Color(0xffE5E5E5),
         borderRadius: BorderRadius.circular(10.0),
       ),
     );
@@ -48,15 +40,16 @@ class RoundedTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: name,
           hintStyle: TextStyle(
-          color: Colors.white,
-            fontSize: 14.0
+            color: Colors.black26,
+            fontSize: 14.0,
+            fontWeight: FontWeight.bold,
         ),
           icon: Icon(
             icon,
-            color: Colors.white,
+            color: kRed,
           ),
-          border: InputBorder.none,
           suffixIcon: icon2,
+          border: InputBorder.none,
         ),
       ),
     );

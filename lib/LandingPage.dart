@@ -15,11 +15,17 @@ class _LandingPageState extends State<LandingPage> {
 
 
   User _user ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _updateUser(FirebaseAuth.instance.currentUser); // when the application starts we will receive the current user;
+  }
 
   void _updateUser(User user){
     setState(() {
       _user =user;
-      print(_user);
+
     });
 
   }
@@ -27,7 +33,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _user == null ?  MainScreen(isSignedIn: _updateUser,) :  HomePage(),
+      body: _user == null ?  MainScreen(isSignedIn: _updateUser,) :  HomePage(onSignOut: ()=>_updateUser(null),),
     );
   }
 }

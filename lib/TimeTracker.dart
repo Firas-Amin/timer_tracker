@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_tracker/LandingPage.dart';
 import 'package:timer_tracker/RegisterPage.dart';
+import 'Auth.dart';
 import 'Component/ClickAbleImage.dart';
 import 'LoginPage.dart';
 import 'constants.dart';
@@ -25,8 +26,9 @@ class TimeTracker extends StatelessWidget {
 
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({Key key, this.isSignedIn}) : super(key: key);
+  const MainScreen({Key key, this.isSignedIn, this.auth}) : super(key: key);
   final void Function(User) isSignedIn;
+  final AuthBase auth ;
 
 
 
@@ -64,8 +66,8 @@ class MainScreen extends StatelessWidget {
   }
   Future<void> _SignInAnonymous() async {
     try{
-      final UserCredential= await FirebaseAuth.instance.signInAnonymously();
-      isSignedIn(UserCredential.user);
+      final user= await auth.signInAnonymously();
+      isSignedIn(user);
     }catch(e){
       print(e.toString());
 

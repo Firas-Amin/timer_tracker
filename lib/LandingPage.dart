@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_tracker/TimeTracker.dart';
 
+import 'Auth.dart';
 import 'HomePage.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key key}) : super(key: key);
+  const LandingPage({Key key, this.auth}) : super(key: key);
+  final AuthBase auth;
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -17,9 +19,9 @@ class _LandingPageState extends State<LandingPage> {
   User _user ;
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-    _updateUser(FirebaseAuth.instance.currentUser); // when the application starts we will receive the current user;
+    _updateUser(widget.auth.currentUser); // when the application starts we will receive the current user;
   }
 
   void _updateUser(User user){

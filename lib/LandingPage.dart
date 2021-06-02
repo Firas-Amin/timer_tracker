@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:timer_tracker/LoginPage.dart';
 import 'package:timer_tracker/TimeTracker.dart';
 
 import 'Auth.dart';
@@ -19,6 +20,10 @@ class _LandingPageState extends State<LandingPage> {
   User _user ;
   @override
   void initState() {
+    widget.auth.authChange().listen((_user) {
+      print('UID :${_user?.uid}'); // the question mark to prevent to return null ;
+
+    });
 
     super.initState();
     _updateUser(widget.auth.currentUser); // when the application starts we will receive the current user;
@@ -34,8 +39,17 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _user == null ?  MainScreen(isSignedIn: _updateUser,) :  HomePage(onSignOut: ()=>_updateUser(null),),
+    return StreamBuilder(
+      stream: widget.auth.authChange(),
+      builder: (context, snapshot){// snapshot is an objects that hold the data we will retrieve.
+      if(snapshot.hasData){
+        return HomePage(auth: widget.auth,);
+      }else {
+        return MainScreen(auth:widget.auth,);
+      }
+
+      }
+
     );
   }
 }

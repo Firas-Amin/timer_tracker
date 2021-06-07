@@ -26,10 +26,7 @@ class TimeTracker extends StatelessWidget {
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key key, this.auth}) : super(key: key);
-
   final AuthBase auth ;
-
-
 
 
 
@@ -44,7 +41,7 @@ class MainScreen extends StatelessWidget {
           children: [
             ClickAbleImage(name:'time',),
             SizedBox(height: 100,),
-            ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=> LoginPage())),),
+            ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(fullscreenDialog:true,builder:(c)=> LoginPage(auth:auth,))),),
             SizedBox(height: 10,),
             ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage())),),
             SizedBox(height: 10,),
@@ -70,9 +67,8 @@ class MainScreen extends StatelessWidget {
       print(e.toString());
 
     }
-
-
   }
+
 }
 
 

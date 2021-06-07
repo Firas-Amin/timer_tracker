@@ -25,7 +25,7 @@ class BuildSocialButton extends StatelessWidget {
             ],
             image: DecorationImage(
               image:AssetImage("images/$asset.jpg"),
-            )
+            ),
 
         ),
       ),

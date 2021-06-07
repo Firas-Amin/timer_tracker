@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'Auth.dart';
 import 'package:timer_tracker/constants.dart';
+
 
 import 'Component/ClickAbleImage.dart';
 import 'Component/RoundedPasswordField.dart';
@@ -8,9 +11,15 @@ import 'Component/RoundedTextField.dart';
 import 'Component/BuildSoicalButton.dart';
 
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key key, this.auth}) : super(key: key);
+  final AuthBase auth;
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +33,8 @@ class LoginPage extends StatelessWidget {
 
             children: [
               SizedBox(height: 30,),
-
               SvgPicture.asset('images/timeScreen.svg',width: 200, height: 200,),
-
-
               RoundedTextField(icon:Icons.mail,name: "Enter Your Email",),
-
 
               RoundedPasswordField(icon:Icons.lock,name: "Must be at least 8 characters",),
               Text("Forget Password?", textAlign: TextAlign.end, style: kMainText.copyWith(fontSize: 16),),
@@ -42,8 +47,7 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  BuildSocialButton(asset: "facebook",),
-                 BuildSocialButton(asset: "google2",),
+                 BuildSocialButton(asset: "google2",onTap: _SignInWithGoogle,),
                 ],
               ),
             ],
@@ -53,7 +57,20 @@ class LoginPage extends StatelessWidget {
 
     );
   }
+
+  Future<void> _SignInWithGoogle() async {
+    try{
+      await widget.auth.signInGoogle();
+      Navigator.pop(context);
+
+    }catch(e){
+      print(e.toString());
+    }
+  }
 }
+
+
+
 
 
 

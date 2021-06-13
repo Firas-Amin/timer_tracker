@@ -1,4 +1,5 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'Auth.dart';
@@ -20,6 +21,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,17 +37,18 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
-
             children: [
               SizedBox(height: 30,),
               SvgPicture.asset('images/timeScreen.svg',width: 200, height: 200,),
-              RoundedTextField(icon:Icons.mail,name: "Enter Your Email",),
+              RoundedTextField(icon:Icons.mail,name: "Enter Your Email",
+              controller: _email,
+              ),
 
-              RoundedPasswordField(icon:Icons.lock,name: "Must be at least 8 characters",),
+              RoundedPasswordField(icon:Icons.lock,name: "Must be at least 8 characters",controller: _password,),
               Text("Forget Password?", textAlign: TextAlign.end, style: kMainText.copyWith(fontSize: 16),),
               SizedBox(height: 30,),
 
-              ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=> LoginPage())),),
+              ClickAbleImage(name:'asset1',width: 300,press: ()=>signInWithEmailAndPassword(_email.text,_password.text),),
               divider(),
               Text("Sign In with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
               SizedBox(height: 10,),
@@ -67,7 +75,15 @@ class _LoginPageState extends State<LoginPage> {
       print(e.toString());
     }
   }
+  Future<User>signInWithEmailAndPassword(String email , String password) async {
+    try{
+      await widget.auth.signInWithEmailAndPassword(email, password);
+    }catch(e){
+      print(e.toString());
+    }
+  }
 }
+
 
 
 

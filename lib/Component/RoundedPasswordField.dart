@@ -8,15 +8,15 @@ class RoundedPasswordField extends RoundedTextField {
   RoundedPasswordField({
 String name,
     IconData icon,
-    ValueChanged<String> onChanged,
-}): super(onChanged: onChanged, icon: icon,name: name);
+    TextEditingController controller,
+}): super(controller: controller, icon: icon,name: name);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
         keyboardType: TextInputType.emailAddress,
-        onChanged: onChanged,
+        controller: controller,
         obscureText: true,
         decoration: InputDecoration(
           hintText: name,

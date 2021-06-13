@@ -8,6 +8,8 @@ Future<User> signInAnonymously();
 Future<void> signOut();
 Stream<User> authChange();
 Future<User> signInGoogle();
+Future<User> signInWithEmailAndPassword(String email , String password);
+Future<User> signUpWithEmailAndPassword(String email , String password);
 
 
 
@@ -30,6 +32,22 @@ Future<User> signInAnonymously() async{
   return userCredential.user;
 
 }
+
+@override
+Future<User> signInWithEmailAndPassword(String email , String password) async{
+  final userCredential = await _firebaseAuth.signInWithCredential(EmailAuthProvider.credential
+    (email: email, password: password));
+  return userCredential.user;
+}
+
+@override
+Future<User> signUpWithEmailAndPassword(String email , String password) async{
+  final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+  return userCredential.user;
+
+}
+
+
 @override
 Future<User> signInGoogle() async{ // allowing the users to sign in with google
 

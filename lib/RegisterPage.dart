@@ -1,6 +1,8 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:timer_tracker/Auth.dart';
 
 import 'Component/BuildSoicalButton.dart';
 import 'Component/ClickAbleImage.dart';
@@ -10,8 +12,17 @@ import 'LoginPage.dart';
 import 'constants.dart';
 
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final AuthBase auth;
+  const RegisterPage({Key key, this.auth}) : super(key: key);
+
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +38,11 @@ class RegisterPage extends StatelessWidget {
               SizedBox(height: 30,),
               SvgPicture.asset('images/timeScreen.svg',width: 200, height: 200,),
 
-              RoundedTextField(icon:Icons.mail,name: "Enter Your Email",),
-              RoundedPasswordField(icon:Icons.vpn_key,name: "Must be at least 8 characters",),
+              RoundedTextField(icon:Icons.mail,name: "Enter Your Email",controller: _email,),
+              RoundedPasswordField(icon:Icons.vpn_key,name: "Must be at least 8 characters",controller: _password,),
               RoundedPasswordField(icon:Icons.vpn_key,name: "Confirm Your Password",),
               SizedBox(height: 40,),
-              ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=> LoginPage())),),
+              ClickAbleImage(name:'asset2',width: 300,press: ()=>signUpWithEmailAndPassword(_email.text,_password.text),),
               divider(),
               Text("Sign Up with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
               SizedBox(height: 10,),
@@ -46,5 +57,16 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<User> signUpWithEmailAndPassword(String email , String password)async{
+    try{
+
+      await widget.auth.signUpWithEmailAndPassword(email, password);
+    }catch(e){
+      print(e.toString());
+    }
+
+
   }
 }

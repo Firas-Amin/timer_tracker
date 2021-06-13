@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget {
             SizedBox(height: 100,),
             ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(fullscreenDialog:true,builder:(c)=> LoginPage(auth:auth,))),),
             SizedBox(height: 10,),
-            ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage())),),
+            ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage(auth: auth,))),),
             SizedBox(height: 10,),
             Container(
               child: GestureDetector(

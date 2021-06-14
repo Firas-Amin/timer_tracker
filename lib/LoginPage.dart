@@ -7,6 +7,7 @@ import 'package:timer_tracker/constants.dart';
 
 
 import 'Component/ClickAbleImage.dart';
+import 'Component/LoadingAlertDialog.dart';
 import 'Component/RoundedPasswordField.dart';
 import 'Component/RoundedTextField.dart';
 import 'Component/BuildSoicalButton.dart';
@@ -25,6 +26,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+
 
 
   @override
@@ -42,9 +47,16 @@ class _LoginPageState extends State<LoginPage> {
               SvgPicture.asset('images/timeScreen.svg',width: 200, height: 200,),
               RoundedTextField(icon:Icons.mail,name: "Enter Your Email",
               controller: _email,
+                focusNode: _emailFocusNode,
+                function: _onCompleteNode,
               ),
 
-              RoundedPasswordField(icon:Icons.lock,name: "Must be at least 8 characters",controller: _password,),
+              RoundedPasswordField(
+                icon:Icons.lock,
+                name: "Must be at least 8 characters",
+                controller: _password,
+              focusNode: _passwordFocusNode,
+              ),
               Text("Forget Password?", textAlign: TextAlign.end, style: kMainText.copyWith(fontSize: 16),),
               SizedBox(height: 30,),
 
@@ -65,29 +77,33 @@ class _LoginPageState extends State<LoginPage> {
 
     );
   }
+  void _onCompleteNode(){
+    FocusScope.of(context).requestFocus(_passwordFocusNode);
+  }
 
   Future<void> _SignInWithGoogle() async {
     try{
       await widget.auth.signInGoogle();
-      Navigator.pop(context);
+      Navigator.of(context).pop();
 
     }catch(e){
       print(e.toString());
     }
   }
   Future<User>signInWithEmailAndPassword(String email , String password) async {
+    showDialog(context: context,
+        builder: (c) {
+          return LoadingAlertDialog(message:"Authenticating please wait...",);
+        });
     try{
+      await Future.delayed(Duration(seconds: 2));
       await widget.auth.signInWithEmailAndPassword(email, password);
+      Navigator.of(context).pop();
     }catch(e){
       print(e.toString());
     }
   }
 }
-
-
-
-
-
 
 
 

@@ -4,12 +4,12 @@ import 'package:timer_tracker/Component/RoundedTextField.dart';
 import '../constants.dart';
 
 class RoundedPasswordField extends RoundedTextField {
-
   RoundedPasswordField({
 String name,
     IconData icon,
     TextEditingController controller,
-}): super(controller: controller, icon: icon,name: name);
+    FocusNode focusNode,
+}): super(controller: controller, icon: icon,name: name , focusNode: focusNode);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,8 @@ String name,
         keyboardType: TextInputType.emailAddress,
         controller: controller,
         obscureText: true,
+        textInputAction: TextInputAction.done,
+        focusNode: focusNode,
         decoration: InputDecoration(
           hintText: name,
           hintStyle: TextStyle(

@@ -28,15 +28,20 @@ class RoundedTextField extends StatelessWidget {
   final IconData icon;
   final String name;
   final Widget icon2;
+  final FocusNode focusNode;
+  final Function function;
   final TextEditingController controller;
-  const RoundedTextField({this.icon, this.name, this.controller, this.icon2});
+  const RoundedTextField({this.icon, this.name, this.controller, this.icon2, this.focusNode, this.function});
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
+        focusNode: focusNode,
         keyboardType: TextInputType.emailAddress,
         controller: controller,
+        textInputAction: TextInputAction.next,
+        onEditingComplete: function,
         decoration: InputDecoration(
           hintText: name,
           hintStyle: TextStyle(
@@ -53,5 +58,7 @@ class RoundedTextField extends StatelessWidget {
         ),
       ),
     );
+
   }
+
 }

@@ -63,6 +63,8 @@ class _RegisterPageState extends State<RegisterPage> {
     try{
 
       await widget.auth.signUpWithEmailAndPassword(email, password);
+
+      Navigator.of(context).pop();
     }catch(e){
       print(e.toString());
     }

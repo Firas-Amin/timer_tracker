@@ -62,6 +62,7 @@ class MainScreen extends StatelessWidget {
   }
   Future<void> _SignInAnonymous() async {
     try{
+      await Future.delayed(Duration(seconds: 7));
     await auth.signInAnonymously();
     }catch(e){
       print(e.toString());

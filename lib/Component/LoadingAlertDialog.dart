@@ -19,12 +19,11 @@ class LoadingAlertDialog extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          CircularProgressIndicator(),
-
-
         ],
-
       ),
+      actions: [
+        TextButton(onPressed:()=> Navigator.pop(context),child: Text("OK"), ),
+      ],
     );
   }
 }

@@ -36,7 +36,7 @@ class RoundedTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: TextField(
+      child: TextFormField(
         focusNode: focusNode,
         keyboardType: TextInputType.emailAddress,
         controller: controller,
@@ -56,6 +56,9 @@ class RoundedTextField extends StatelessWidget {
           suffixIcon: icon2,
           border: InputBorder.none,
         ),
+        validator: (String value) {
+          return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
+        },
       ),
     );
 

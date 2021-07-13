@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timer_tracker/LandingPage.dart';
 import 'package:timer_tracker/RegisterPage.dart';
 import 'Auth.dart';
+import 'Blocs/SignInBloc.dart';
 import 'Component/ClickAbleImage.dart';
+import 'Component/Exception_Alert.dart';
 import 'LoginPage.dart';
 import 'constants.dart';
 
@@ -12,22 +16,31 @@ class TimeTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
+    return Provider<AuthBase>(
+      create:(context)=> Auth(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+        ),
+        home: LandingPage(),
       ),
-      home: LandingPage(auth: Auth(),),
     );
   }
 }
 
 
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key key, this.auth}) : super(key: key);
-  final AuthBase auth ;
+class MainScreen extends StatefulWidget {
+  
 
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+bool _isLoading = false;
+
+
+class _MainScreenState extends State<MainScreen> {
 
 
   @override
@@ -41,13 +54,19 @@ class MainScreen extends StatelessWidget {
           children: [
             ClickAbleImage(name:'time',),
             SizedBox(height: 100,),
-            ClickAbleImage(name:'asset1',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(fullscreenDialog:true,builder:(c)=> LoginPage(auth:auth,))),),
+            ClickAbleImage(name:'asset1',width: 300,press: ()=>_isLoading ? null :Navigator.push(context, MaterialPageRoute(fullscreenDialog:true,builder:(c)=> LoginPage.create(context))),),
             SizedBox(height: 10,),
-            ClickAbleImage(name:'asset2',width: 300,press: ()=>Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage(auth: auth,))),),
+            ClickAbleImage(name:'asset2',width: 300,press: ()=>_isLoading ? null :Navigator.push(context, MaterialPageRoute(builder:(c)=>RegisterPage.create(context))),),
             SizedBox(height: 10,),
             Container(
               child: GestureDetector(
-                onTap: _SignInAnonymous,
+                onTap: (){
+                  setState(() {
+                    _isLoading = true;
+                    buildMethod();
+                  });
+
+                },
                 child: Text(
                   "Sign In as Anonymously",
                   textAlign: TextAlign.center,
@@ -60,16 +79,44 @@ class MainScreen extends StatelessWidget {
       ),
     );
   }
+
   Future<void> _SignInAnonymous() async {
     try{
-      await Future.delayed(Duration(seconds: 7));
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      await Future.delayed(Duration(seconds: 5));
     await auth.signInAnonymously();
-    }catch(e){
-      print(e.toString());
+    setState(() {
+      _isLoading = false;
+    });
 
+    }on FirebaseAuthException catch(e){
+      showExceptionAlert(context, title: "Failed To LoginIn", exception: e);
+    }finally{
+      Navigator.pop(context);
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
-
+  Widget buildMethod(){
+    if(_isLoading == true){
+      _SignInAnonymous();
+      showDialog(context: context, builder:(BuildContext context){
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Authenticating please wait..." , style: TextStyle(fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              CircularProgressIndicator(),
+            ],
+          ),
+        );
+      });
+    }
+  }
 }
 
 

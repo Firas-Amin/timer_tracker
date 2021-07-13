@@ -1,9 +1,10 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:timer_tracker/Auth.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'Auth.dart';
+import 'Blocs/SignInBloc.dart';
 import 'Component/BuildSoicalButton.dart';
 import 'Component/ClickAbleImage.dart';
 import 'Component/RoundedPasswordField.dart';
@@ -13,8 +14,13 @@ import 'constants.dart';
 
 
 class RegisterPage extends StatefulWidget {
-  final AuthBase auth;
-  const RegisterPage({Key key, this.auth}) : super(key: key);
+  static Widget create(BuildContext context){
+    return Provider<SignInBloc>(
+      create:(_) => SignInBloc(),
+      child: RegisterPage(),
+    );
+
+  }
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -23,6 +29,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
               RoundedTextField(icon:Icons.mail,name: "Enter Your Email",controller: _email,),
               RoundedPasswordField(icon:Icons.vpn_key,name: "Must be at least 8 characters",controller: _password,),
-              RoundedPasswordField(icon:Icons.vpn_key,name: "Confirm Your Password",),
+              RoundedPasswordField(icon:Icons.vpn_key,name: "Confirm Your Password",controller: _confirmPassword,),
               SizedBox(height: 40,),
-              ClickAbleImage(name:'asset2',width: 300,press: ()=>signUpWithEmailAndPassword(_email.text,_password.text),),
+              ClickAbleImage(name:'asset2',width: 300,press: ()=>signUpWithEmailAndPassword(_email.text,_password.text,_confirmPassword.text),),
               divider(),
               Text("Sign Up with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
               SizedBox(height: 10,),
@@ -59,12 +66,18 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Future<User> signUpWithEmailAndPassword(String email , String password)async{
+  Future<User> signUpWithEmailAndPassword(String email , String password,String confirmPassword )async{
     try{
+      final auth = Provider.of<AuthBase>(context, listen: false);
+      if(password == confirmPassword){
+        await auth.signUpWithEmailAndPassword(email, password);
+        Navigator.of(context).pop();
+      }else{
+        Fluttertoast.showToast(msg: "Failed !");
+      }
 
-      await widget.auth.signUpWithEmailAndPassword(email, password);
 
-      Navigator.of(context).pop();
+
     }catch(e){
       print(e.toString());
     }

@@ -17,6 +17,7 @@ class TextFieldContainer extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 1),
       decoration: BoxDecoration(
+        border: Border.all(color: Colors.white) ,
             color: Color(0xffE5E5E5),
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -41,7 +42,6 @@ class RoundedTextField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         controller: controller,
         textInputAction: TextInputAction.next,
-        onEditingComplete: function,
         decoration: InputDecoration(
           hintText: name,
           hintStyle: TextStyle(
@@ -56,9 +56,6 @@ class RoundedTextField extends StatelessWidget {
           suffixIcon: icon2,
           border: InputBorder.none,
         ),
-        validator: (String value) {
-          return (value != null && value.contains('@')) ? 'Do not use the @ char.' : null;
-        },
       ),
     );
 

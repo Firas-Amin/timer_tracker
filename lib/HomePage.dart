@@ -1,11 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
 
 import 'Auth.dart';
-class HomePage extends StatelessWidget {
-  final AuthBase auth;
 
-  const HomePage({Key key,@required this.auth}) : super(key: key);
+
+
+class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +14,31 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("home page"),
         actions: [
-          TextButton(onPressed:signOut, child: Text("SIGN OUT",style: TextStyle(color: Colors.white),),)
+          TextButton(onPressed:()=>confirmSignOut(context), child: Text("SIGN OUT",style: TextStyle(color: Colors.white),),)
         ],
       ),
     );
   }
 
-  void signOut()async{
-    await auth.signOut();
 
+
+
+
+   Future<void >confirmSignOut(BuildContext context) async{
+    final isSignOut = await showAlertDialog(title:"Signing Out",
+    content: "Are you sure you want to sign out?",
+    context: context,
+    cancelActionText: "cancel",
+    defaultActionText: 'Logout'
+    );
+    if(isSignOut == true){
+      signOut(context);
+    }
+
+  }
+  void signOut(BuildContext context)async{
+    final auth = Provider.of<AuthBase>(context, listen: false);
+      await auth.signOut();
 
   }
 }

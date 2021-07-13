@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BuildSocialButton extends StatelessWidget {
-  final Function onTap;
+  final Function  onTap;
   final String asset;
 
   BuildSocialButton({this.onTap, this.asset});

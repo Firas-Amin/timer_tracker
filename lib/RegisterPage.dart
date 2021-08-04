@@ -48,17 +48,8 @@ class _RegisterPageState extends State<RegisterPage> {
               RoundedTextField(icon:Icons.mail,name: "Enter Your Email",controller: _email,),
               RoundedPasswordField(icon:Icons.vpn_key,name: "Must be at least 8 characters",controller: _password,),
               RoundedPasswordField(icon:Icons.vpn_key,name: "Confirm Your Password",controller: _confirmPassword,),
-              SizedBox(height: 40,),
+              SizedBox(height: 30,),
               ClickAbleImage(name:'asset2',width: 300,press: ()=>signUpWithEmailAndPassword(_email.text,_password.text,_confirmPassword.text),),
-              divider(),
-              Text("Sign Up with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  BuildSocialButton(asset: "google2",),
-                ],
-              ),
             ],
           ),
         ),

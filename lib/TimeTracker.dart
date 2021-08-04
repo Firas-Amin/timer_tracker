@@ -41,6 +41,12 @@ bool _isLoading = false;
 
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _isLoading=false;
+  }
 
 
   @override

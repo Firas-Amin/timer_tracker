@@ -92,7 +92,8 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  BuildSocialButton(asset: "google2",onTap: _SignInWithGoogle,),
+                  BuildSocialButton(asset: "google2",onTap:() => _signInWithGoogle(context),
+                   ),
                 ],
               ),
             ],
@@ -109,15 +110,11 @@ class LoginPage extends StatelessWidget {
 
 
 
-  Future<void> _SignInWithGoogle(BuildContext context) async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
 
     try{
-
-
-      await Future.delayed(Duration(seconds: 5));
       await bloc.signInGoogle();
       Navigator.of(context).pop();
-
 
     }on FirebaseAuthException catch(e){
       if(e.code == "ERROR_ABORTED_BY_USER"){

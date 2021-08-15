@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:timer_tracker/Blocs/SignInBloc.dart';
+import 'package:timer_tracker/Blocs/SignInManager.dart';
 import 'package:timer_tracker/Component/Exception_Alert.dart';
 import 'Auth.dart';
 import 'package:timer_tracker/constants.dart';
@@ -14,21 +14,25 @@ import 'Component/BuildSoicalButton.dart';
 
 
 class LoginPage extends StatelessWidget {
-
-   LoginPage({Key key, this.bloc}) : super(key: key);
-  final SignInBloc bloc;
+   LoginPage({Key key, this.manager,@required this.isLoading}) : super(key: key);
+  final SignInManager manager;
+  final bool isLoading;
   static Widget create(BuildContext context){
     final auth = Provider.of<AuthBase>(context,listen: false);
-    return Provider<SignInBloc>(
-      create:(_) => SignInBloc(auth: auth),
-      dispose: (_,bloc) => bloc.dispose(),
-      child: Consumer<SignInBloc>(
-        builder: (_, bloc,__) => LoginPage(bloc: bloc,)
+    return ChangeNotifierProvider<ValueNotifier<bool>>(
+      create: (_)=> ValueNotifier<bool>(false),
+
+      child: Consumer<ValueNotifier<bool>>(
+        builder: (_, isLoading, __)=> Provider<SignInManager>(
+          create:(_) => SignInManager(auth: auth, isLoading: isLoading),
+          child: Consumer<SignInManager>(
+            builder: (_, manager,__) => LoginPage(manager: manager,isLoading: isLoading.value,)
+          ),
+        ),
       ),
     );
 
   }
-
 
 
   final TextEditingController _email = TextEditingController();
@@ -43,22 +47,14 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<SignInBloc>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: StreamBuilder<bool>(
-        stream: bloc.isLoadingStream,
-        initialData: false,
-        builder: (context, snapshot) {
-          return buildContext(context, snapshot.data);
-        }
-      ),
-
+      body: buildContext(context),
+        
     );
   }
 
-
-  Widget buildContext(BuildContext context, bool isLoading){
+  Widget buildContext(BuildContext context){
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
@@ -75,7 +71,7 @@ class LoginPage extends StatelessWidget {
               ),
               RoundedPasswordField(
                 icon:Icons.lock,
-                name: "Must be at least 8 characters",
+                name: "Enter Your Password",
                 controller: _password,
                 focusNode: _passwordFocusNode,
               ),
@@ -84,7 +80,7 @@ class LoginPage extends StatelessWidget {
 
               ClickAbleImage(name:'asset1',width: 300,press: ()=>
               _email.text.isEmpty || _password.text.isEmpty ?  Fluttertoast.showToast(msg: "Fill all the fields") :
-              signInWithEmailAndPassword(_email.text,_password.text,context),
+              isLoading ? print("loading") : signInWithEmailAndPassword(_email.text,_password.text,context),
               ),
               divider(),
               Text("Sign In with ", textAlign: TextAlign.center, style: kMainText.copyWith(fontSize: 16),),
@@ -92,7 +88,7 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  BuildSocialButton(asset: "google2",onTap:() => _signInWithGoogle(context),
+                  BuildSocialButton(asset: "google2",onTap:() =>  _signInWithGoogle(context),
                    ),
                 ],
               ),
@@ -113,7 +109,7 @@ class LoginPage extends StatelessWidget {
   Future<void> _signInWithGoogle(BuildContext context) async {
 
     try{
-      await bloc.signInGoogle();
+      await manager.signInGoogle();
       Navigator.of(context).pop();
 
     }on FirebaseAuthException catch(e){

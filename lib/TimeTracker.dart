@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:timer_tracker/LandingPage.dart';
 import 'package:timer_tracker/RegisterPage.dart';
 import 'Auth.dart';
-import 'Blocs/SignInBloc.dart';
+import 'Blocs/SignInManager.dart';
 import 'Component/ClickAbleImage.dart';
 import 'Component/Exception_Alert.dart';
 import 'LoginPage.dart';

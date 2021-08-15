@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'Auth.dart';
-import 'Blocs/SignInBloc.dart';
+import 'Blocs/SignInManager.dart';
 import 'Component/BuildSoicalButton.dart';
 import 'Component/ClickAbleImage.dart';
 import 'Component/RoundedPasswordField.dart';
@@ -15,8 +15,8 @@ import 'constants.dart';
 
 class RegisterPage extends StatefulWidget {
   static Widget create(BuildContext context){
-    return Provider<SignInBloc>(
-      create:(_) => SignInBloc(),
+    return Provider<SignInManager>(
+      create:(_) => SignInManager(),
       child: RegisterPage(),
     );
 

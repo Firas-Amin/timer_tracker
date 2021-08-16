@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'Auth.dart';
+import 'services/Auth.dart';
 import 'Blocs/SignInManager.dart';
 import 'Component/BuildSoicalButton.dart';
 import 'Component/ClickAbleImage.dart';

@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker/TimeTracker.dart';
-import 'package:timer_tracker/database.dart';
-import 'Auth.dart';
-import 'HomePage.dart';
+import 'package:timer_tracker/services/database.dart';
+import 'services/Auth.dart';
+import 'home/HomePage.dart';
 
 
 class LandingPage extends StatelessWidget {

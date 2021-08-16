@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timer_tracker/Component/Exception_Alert.dart';
 import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
 
-import 'Auth.dart';
+import '../services/Auth.dart';
+import '../services/database.dart';
+import 'models/jobs.dart';
 
 
 
@@ -19,11 +23,19 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _createJob,
+        onPressed:()=> _createJob(context),
       ),
     );
   }
-  void _createJob() {
+  void _createJob(BuildContext context) async {
+    try {
+      final database = Provider.of<Database>(context, listen: false);
+      await database.createJob(Job(
+          name: "Blogging", ratePerHour: 10
+      ));
+    } on FirebaseException catch (e) {
+      showExceptionAlert(context, title: "Access Denied", exception:e );
+    }
   }
 
 

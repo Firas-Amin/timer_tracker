@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 
-import '../Auth.dart';
+import '../services/Auth.dart';
 
 class SignInManager {
   SignInManager({@required this.auth, @required this.isLoading});

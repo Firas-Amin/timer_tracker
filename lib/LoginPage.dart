@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker/Blocs/SignInManager.dart';
 import 'package:timer_tracker/Component/Exception_Alert.dart';
-import 'Auth.dart';
+import 'services/Auth.dart';
 import 'package:timer_tracker/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'Component/ClickAbleImage.dart';

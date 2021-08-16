@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker/LandingPage.dart';
 import 'package:timer_tracker/RegisterPage.dart';
-import 'Auth.dart';
+import 'services/Auth.dart';
 import 'Blocs/SignInManager.dart';
 import 'Component/ClickAbleImage.dart';
 import 'Component/Exception_Alert.dart';

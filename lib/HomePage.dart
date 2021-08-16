@@ -17,9 +17,14 @@ class HomePage extends StatelessWidget {
           TextButton(onPressed:()=>confirmSignOut(context), child: Text("SIGN OUT",style: TextStyle(color: Colors.white),),)
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _createJob,
+      ),
     );
   }
-
+  void _createJob() {
+  }
 
 
 
@@ -41,4 +46,6 @@ class HomePage extends StatelessWidget {
       await auth.signOut();
 
   }
+
+
 }

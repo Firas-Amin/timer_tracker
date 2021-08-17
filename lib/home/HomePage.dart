@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker/Component/Exception_Alert.dart';
 import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
+import 'package:timer_tracker/home/JobForm.dart';
+
 
 import '../services/Auth.dart';
 import '../services/database.dart';
@@ -21,12 +23,15 @@ class HomePage extends StatelessWidget {
           TextButton(onPressed:()=>confirmSignOut(context), child: Text("SIGN OUT",style: TextStyle(color: Colors.white),),)
         ],
       ),
+      body: _buildContents(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed:()=> _createJob(context),
+        onPressed:()=> Navigator.push(context, MaterialPageRoute(builder:(c)=>JobForm())),
       ),
     );
   }
+
+
   void _createJob(BuildContext context) async {
     try {
       final database = Provider.of<Database>(context, listen: false);
@@ -37,6 +42,27 @@ class HomePage extends StatelessWidget {
       showExceptionAlert(context, title: "Access Denied", exception:e );
     }
   }
+
+  Widget _buildContents(BuildContext context){
+    final database = Provider.of<Database>(context, listen: false);
+    return StreamBuilder(
+      stream: database.jobsStream(),
+      builder: (context,snapshot){
+       if(snapshot.hasData) {
+         final jobs = snapshot.data;
+         final children = jobs.map<Widget>((job) => Text(job.name)).toList();
+         return ListView(children:children,);
+       } else {
+         if(snapshot.hasError) {
+           return Center(child: Text("An error occurred"),);
+         }
+         return Center(child: CircularProgressIndicator(),);
+       }
+      },
+    );
+  }
+
+
 
 
 

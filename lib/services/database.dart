@@ -10,6 +10,7 @@ abstract class Database {
 
 
 }
+String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
@@ -17,7 +18,7 @@ class FirestoreDatabase implements Database {
   final _service =FirestoreService.instance; // constructor
   @override
   Future<void> createJob(Job job) => _service.setData(
-    path: APIPath.job(uid, 'job_abc'),
+    path: APIPath.job(uid, documentIdFromCurrentDate()),
     data: job.toMap(),
   );
 

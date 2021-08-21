@@ -26,22 +26,13 @@ class HomePage extends StatelessWidget {
       body: _buildContents(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed:()=> Navigator.push(context, MaterialPageRoute(builder:(c)=>JobForm())),
+        onPressed:()=> JobForm.show(context),
       ),
     );
   }
 
 
-  void _createJob(BuildContext context) async {
-    try {
-      final database = Provider.of<Database>(context, listen: false);
-      await database.createJob(Job(
-          name: "Blogging", ratePerHour: 10
-      ));
-    } on FirebaseException catch (e) {
-      showExceptionAlert(context, title: "Access Denied", exception:e );
-    }
-  }
+
 
   Widget _buildContents(BuildContext context){
     final database = Provider.of<Database>(context, listen: false);

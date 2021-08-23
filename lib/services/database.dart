@@ -18,11 +18,12 @@ class FirestoreDatabase implements Database {
   final _service =FirestoreService.instance; // constructor
   @override
   Future<void> createJob(Job job) => _service.setData(
-    path: APIPath.job(uid, documentIdFromCurrentDate()),
+    path: APIPath.job(uid, job.id),
     data: job.toMap(),
   );
 
- Stream<List<Job>> jobsStream() => _service.collectionStream(path: APIPath.jobs(uid), builder:(data) => Job.fromMap(data));
+ Stream<List<Job>> jobsStream() => _service.collectionStream(path: APIPath.jobs(uid),
+     builder:(data, documentId) => Job.fromMap(data, documentId));
 
 
 

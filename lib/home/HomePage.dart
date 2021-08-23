@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:timer_tracker/Component/Exception_Alert.dart';
 import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
 import 'package:timer_tracker/home/JobForm.dart';
+import 'package:timer_tracker/home/job_list_title.dart';
 
 
 import '../services/Auth.dart';
@@ -41,7 +42,9 @@ class HomePage extends StatelessWidget {
       builder: (context,snapshot){
        if(snapshot.hasData) {
          final jobs = snapshot.data;
-         final children = jobs.map<Widget>((job) => Text(job.name)).toList();
+         final children = jobs.map<Widget>((job) => JobListTitle(job: job,onTap: ()=>
+           JobForm.show(context,job: job)
+           ,)).toList();
          return ListView(children:children,);
        } else {
          if(snapshot.hasError) {

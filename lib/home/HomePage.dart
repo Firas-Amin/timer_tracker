@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_tracker/Component/Exception_Alert.dart';
 import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
+import 'package:timer_tracker/home/Empty_Contants.dart';
 import 'package:timer_tracker/home/JobForm.dart';
 import 'package:timer_tracker/home/job_list_title.dart';
 
@@ -42,10 +43,14 @@ class HomePage extends StatelessWidget {
       builder: (context,snapshot){
        if(snapshot.hasData) {
          final jobs = snapshot.data;
-         final children = jobs.map<Widget>((job) => JobListTitle(job: job,onTap: ()=>
-           JobForm.show(context,job: job)
-           ,)).toList();
-         return ListView(children:children,);
+         if(jobs.isNotEmpty) {
+           final children = jobs.map<Widget>((job) =>
+               JobListTitle(job: job, onTap: () =>
+                   JobForm.show(context, job: job)
+                 ,)).toList();
+           return ListView(children: children,);
+         }
+         return EmptyContent();
        } else {
          if(snapshot.hasError) {
            return Center(child: Text("An error occurred"),);

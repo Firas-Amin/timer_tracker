@@ -55,7 +55,7 @@ class _JobFormState extends State<JobForm> {
           final id = widget.job?.id ?? documentIdFromCurrentDate();
           final job = Job(name:name,ratePerHour: hour,id: id);
           // await Future.delayed(Duration(seconds: 5));
-          await widget.database.createJob(job);
+          await widget.database.setJob(job);
           Navigator.pop(context);
         }
 

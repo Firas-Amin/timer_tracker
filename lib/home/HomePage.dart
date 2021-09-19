@@ -6,6 +6,7 @@ import 'package:timer_tracker/Component/LoadingAlertDialog.dart';
 import 'package:timer_tracker/home/Empty_Contants.dart';
 import 'package:timer_tracker/home/JobForm.dart';
 import 'package:timer_tracker/home/job_list_title.dart';
+import 'package:timer_tracker/home/list_item_builder.dart';
 
 
 import '../services/Auth.dart';
@@ -41,27 +42,32 @@ class HomePage extends StatelessWidget {
     return StreamBuilder(
       stream: database.jobsStream(),
       builder: (context,snapshot){
-       if(snapshot.hasData) {
-         final jobs = snapshot.data;
-         if(jobs.isNotEmpty) {
-           final children = jobs.map<Widget>((job) =>
-               JobListTitle(job: job, onTap: () =>
-                   JobForm.show(context, job: job)
-                 ,)).toList();
-           return ListView(children: children,);
-         }
-         return EmptyContent();
-       } else {
-         if(snapshot.hasError) {
-           return Center(child: Text("An error occurred"),);
-         }
-         return Center(child: CircularProgressIndicator(),);
-       }
+        return ListItemsBuilder<Job>(
+          snapshot: snapshot,
+          itemBuilder: (context, job) => Dismissible(
+            key: Key('job-${job.id}'),
+            background: Container(color: Colors.red,),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direcation)=>_delete(context, job),
+            child: JobListTitle(
+              job: job,
+              onTap: () =>   JobForm.show(context, job: job),
+            ),
+          ),
+        );
       },
     );
   }
 
+Future<void> _delete(BuildContext context, Job job) async {
+  try {
+    final database = Provider.of<Database>(context, listen: false);
+    await database.deleteJob(job);
+  }on FirebaseException catch (e) {
+    showExceptionAlert(context, title: "Operation failed", exception: e);
+  }
 
+}
 
 
 
